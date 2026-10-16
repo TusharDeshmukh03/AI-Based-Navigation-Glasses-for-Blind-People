@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI-Based Navigation Glasses for Blind People — an assistive technology project.">
+  <title>NavSight | AI Navigation Glasses</title>
+  <style>
+    :root{--bg:#08111f;--panel:#101d30;--panel2:#14243a;--text:#eef5ff;--muted:#a7b8ce;--accent:#71e2c2;--blue:#83b7ff;--line:rgba(255,255,255,.12)}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);line-height:1.65}
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(1120px,92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(8,17,31,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-weight:800;font-size:1.15rem;letter-spacing:.3px}.brand span{color:var(--accent)}
+    .navlinks{display:flex;gap:24px;color:var(--muted);font-size:.92rem}.navlinks a:hover{color:var(--accent)}
+    .hero{padding:92px 0 74px;display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:9px;padding:7px 12px;border:1px solid rgba(113,226,194,.35);border-radius:999px;color:var(--accent);font-size:.82rem;margin-bottom:22px}
+    .dot{width:7px;height:7px;background:var(--accent);border-radius:50%;box-shadow:0 0 12px var(--accent)}
+    h1{font-size:clamp(2.6rem,5vw,4.7rem);line-height:1.06;letter-spacing:-.045em;margin-bottom:22px}
+    h1 em{font-style:normal;color:var(--accent)}
+    .lead{font-size:1.08rem;color:var(--muted);max-width:610px;margin-bottom:28px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-block;padding:12px 18px;border-radius:12px;font-weight:700;border:1px solid var(--line);transition:transform .2s,background .2s}
+    .btn:hover{transform:translateY(-2px)}.primary{background:var(--accent);color:#06151a;border-color:var(--accent)}.secondary{background:rgba(255,255,255,.04)}
+    .visual{background:radial-gradient(circle at 50% 40%,rgba(113,226,194,.16),transparent 58%),var(--panel);border:1px solid var(--line);border-radius:28px;padding:24px;min-height:350px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+    .visual img{width:100%;height:280px;object-fit:contain;border-radius:16px}
+    .visual-caption{font-size:.82rem;color:var(--muted);text-align:center;margin-top:12px}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding-bottom:62px}
+    .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px}.stat strong{display:block;color:var(--accent);font-size:1.05rem;margin-bottom:4px}.stat span{color:var(--muted);font-size:.9rem}
+    section{padding:64px 0;scroll-margin-top:80px}.section-head{max-width:700px;margin-bottom:30px}.kicker{color:var(--accent);font-size:.78rem;text-transform:uppercase;letter-spacing:.16em;font-weight:800}.section-head h2{font-size:clamp(1.8rem,3vw,2.6rem);line-height:1.2;margin:9px 0 12px}.section-head p{color:var(--muted)}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}.icon{font-size:1.5rem;margin-bottom:12px}.card h3{margin-bottom:8px;font-size:1.08rem}.card p{color:var(--muted);font-size:.94rem}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.image-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:14px}.image-card img{display:block;width:100%;height:320px;object-fit:contain;border-radius:12px;background:#fff}.image-card figcaption{font-size:.85rem;color:var(--muted);padding:12px 6px 2px}
+    .steps{display:grid;gap:14px}.step{display:flex;gap:15px;background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:15px}.num{flex:0 0 34px;height:34px;display:grid;place-items:center;border-radius:10px;background:rgba(113,226,194,.14);color:var(--accent);font-weight:800}.step p{color:var(--muted);font-size:.94rem}
+    .notice{margin-top:20px;padding:16px 18px;border-radius:14px;border:1px solid rgba(131,183,255,.3);background:rgba(131,183,255,.07);color:var(--muted);font-size:.9rem}
+    .cta{background:linear-gradient(135deg,rgba(113,226,194,.13),rgba(131,183,255,.08));border:1px solid var(--line);border-radius:24px;padding:32px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+    .cta p{color:var(--muted);max-width:650px;margin-top:8px}
+    footer{padding:28px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}.foot{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+    @media(max-width:800px){.hero,.split{grid-template-columns:1fr}.hero{padding-top:60px}.cards{grid-template-columns:1fr 1fr}.visual{min-height:260px}.visual img{height:230px}.navlinks{gap:12px;font-size:.82rem}}
+    @media(max-width:560px){.navlinks{display:none}.stats{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.cta{align-items:flex-start;flex-direction:column}.image-card img{height:240px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav aria-label="Main navigation">
+      <a class="brand" href="#home">Nav<span>Sight</span></a>
+      <div class="navlinks">
+        <a href="#about">About</a><a href="#features">Features</a><a href="#hardware">Hardware</a><a href="#workflow">Workflow</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+  <div class="wrap">
+    <section class="hero" style="padding-top:72px">
+      <div>
+        <div class="eyebrow"><span class="dot"></span> Assistive technology project</div>
+        <h1>Navigate the world with <em>more confidence.</em></h1>
+        <p class="lead">AI-Based Navigation Glasses for Blind People explores how embedded systems, a camera, wireless connectivity and AI-powered image understanding can support people with visual impairments.</p>
+        <div class="actions">
+          <a class="btn primary" href="#about">Explore the project ↓</a>
+          <a class="btn secondary" href="#hardware">View hardware</a>
+        </div>
+      </div>
+      <div class="visual">
+        <img src="files/model.jpeg" alt="Project model of the navigation glasses" onerror="this.style.display='none';this.parentElement.insertAdjacentHTML('afterbegin','<div style=&quot;text-align:center;padding:55px 12px;font-size:5rem&quot; aria-hidden=&quot;true&quot;>👓</div>')">
+        <p class="visual-caption">AI-assisted vision · Embedded hardware · Accessible interaction</p>
+      </div>
+    </section>
+
+    <div class="stats" aria-label="Project overview">
+      <div class="stat"><strong>Embedded system</strong><span>Microcontroller-based prototype</span></div>
+      <div class="stat"><strong>AI-assisted vision</strong><span>Image understanding concept</span></div>
+      <div class="stat"><strong>Accessibility first</strong><span>Designed around user assistance</span></div>
+    </div>
+
+    <section id="about">
+      <div class="section-head">
+        <div class="kicker">01 / About</div>
+        <h2>Technology designed to assist everyday navigation</h2>
+        <p>The project investigates a wearable assistive device that can capture visual information and use AI services to help describe a user's surroundings. The goal is to explore an additional source of environmental awareness—not to replace a cane, guide dog, or other established mobility aid.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="icon">📷</div><h3>Visual input</h3><p>A camera captures an image of the scene in front of the user for processing.</p></article>
+        <article class="card"><div class="icon">🧠</div><h3>AI interpretation</h3><p>An AI service can interpret submitted images and return a textual description, subject to network and service availability.</p></article>
+        <article class="card"><div class="icon">♿</div><h3>Assistive purpose</h3><p>The concept aims to provide supplementary information that may help a user understand nearby objects and surroundings.</p></article>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-head">
+        <div class="kicker">02 / Key elements</div>
+        <h2>From camera input to useful information</h2>
+        <p>The prototype brings together embedded programming and connected AI processing.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="icon">⚙️</div><h3>Microcontroller firmware</h3><p>Firmware coordinates device operation and communication.</p></article>
+        <article class="card"><div class="icon">📡</div><h3>Wireless connectivity</h3><p>Wi-Fi provides a connection to an online processing service when a network is available.</p></article>
+        <article class="card"><div class="icon">🔎</div><h3>Scene description</h3><p>AI-generated descriptions can provide context about a submitted image; results may be incomplete or incorrect.</p></article>
+      </div>
+    </section>
+
+    <section id="hardware">
+      <div class="section-head">
+        <div class="kicker">03 / Hardware</div>
+        <h2>Prototype and circuit design</h2>
+        <p>Use the repository images to document the physical concept and electronic design.</p>
+      </div>
+      <div class="split">
+        <figure class="image-card">
+          <img src="files/circuit_diagram.jpeg" alt="Circuit diagram for the navigation glasses" loading="lazy">
+          <figcaption>Figure 1 — Circuit diagram</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="files/components.jpeg" alt="Components used in the navigation glasses project" loading="lazy">
+          <figcaption>Figure 2 — Project components</figcaption>
+        </figure>
+      </div>
+      <div class="notice"><strong>Note:</strong> Confirm the exact component list, power requirements and circuit connections against your actual prototype before using this page as technical documentation.</div>
+    </section>
+
+    <section id="workflow">
+      <div class="section-head">
+        <div class="kicker">04 / Working principle</div>
+        <h2>A simple system workflow</h2>
+        <p>The intended high-level sequence for image-based assistance is outlined below.</p>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div><h3>Capture</h3><p>The camera obtains an image of the scene in front of the device.</p></div></div>
+        <div class="step"><div class="num">2</div><div><h3>Connect</h3><p>The embedded device uses Wi-Fi to communicate with the configured online service.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h3>Process</h3><p>The service analyses the image and returns a response if the request succeeds.</p></div></div>
+        <div class="step"><div class="num">4</div><div><h3>Present information</h3><p>The returned description can be delivered through an appropriate output interface if implemented in the prototype.</p></div></div>
+      </div>
+      <div class="notice">Safety: this is an experimental assistive-technology concept. AI descriptions can be delayed or wrong. Do not rely on this prototype alone to cross roads, avoid hazards, or make safety-critical mobility decisions.</div>
+    </section>
+
+    <section id="cloud">
+      <div class="cta">
+        <div><div class="kicker">05 / Cloud deployment</div><h2>Hosted with AWS Amplify</h2><p>This static project website can be connected to a GitHub repository and hosted by AWS Amplify. After deployment, the generated HTTPS URL can be used to demonstrate the project online.</p></div>
+        <a class="btn primary" href="https://aws.amazon.com/amplify/" target="_blank" rel="noopener noreferrer">About Amplify ↗</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>NavSight · AI-Based Navigation Glasses for Blind People</span>
+    <span>Educational project website · Built with HTML and CSS</span>
+  </div>
+</footer>
+</body>
+</html>
